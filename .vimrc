@@ -34,17 +34,20 @@ let g:ctrlp_max_files=0
 let g:ctrlp_custom_ignore = 'node_modules\|git'
 
 "Ale
-"let b:ale_linters = {
-""\   'javascript': ['eslint'],
-""\}
+let b:ale_linters = {
+\   'javascript': ['eslint'],
+\}
 let g:ale_sign_error = '●' " Less aggressive than the default '>>'
 let g:ale_sign_style_error = '●' " Less aggressive than the default '>>'
+highlight ALEErrorSign ctermbg=NONE ctermfg=red
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 let g:ale_fixers = {
-\  '*': ['trim_whitespace'],
+\  '*': ['trim_whitespace', 'remove_trailing_lines'],
 \  'javascript': ['eslint'],
 \  'css': ['prettier']
 \}
 "let g:ale_linters_explicit = 1
+"let g:ale_lint_on_save = 1
 let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 1 "before ale is loaded
 "/Ale
@@ -55,7 +58,7 @@ color dracula
 :set autoread
 set number
 set autoindent
-set smartindent
+"set smartindent
 set smarttab
 set expandtab
 set shiftwidth=2
@@ -69,7 +72,8 @@ set laststatus=2
 let g:indentLine_char = '¦'
 
 " commentary
-autocmd FileType apache setlocal commentstring=\"\ %s
+autocmd FileType ruby setlocal commentstring=#\ %s
+autocmd FileType javascript.jsx setlocal commentstring={/*\ %s\ */}
 
 inoremap {<cr> {<cr>}<c-o><s-o>
 inoremap [<cr> [<cr>]<c-o><s-o>
@@ -120,4 +124,5 @@ Plugin 'ervandew/supertab'
 Plugin 'w0rp/ale'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'mattn/emmet-vim'
+Plugin 'digitaltoad/vim-jade'
 call vundle#end()
