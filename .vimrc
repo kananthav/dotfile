@@ -136,11 +136,6 @@ nmap <C-l> <C-w><C-l>
 " Ycm
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 
-" ctags
-" nnoremap <leader>. :CtrlPTag<cr>
-" autocmd BufWritePost *.c,*.cpp,*.h silent! !ctags -R &
-" au BufWritePost *.c,*.cpp,*.h !ctags -R
-
 " Move position like use `Alt + Up/Down` in vscode
 " Insert mode
 inoremap <C-j> <ESC>:m .+1<CR>==gi
