@@ -1,7 +1,7 @@
 [user]
   email = kevin.anantha@gmail.com
   name = Kevin Anantha
-  username = kananthav
+  username = kevanantha
 [core]
   editor = vim
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
@@ -183,4 +183,3 @@
 	w = show
 	wp = show -p
 	wr = show -p --no-color
-
