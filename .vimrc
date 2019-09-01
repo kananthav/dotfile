@@ -36,6 +36,11 @@ let g:user_emmet_settings = {
 let g:ctrlp_max_files=0
 let g:ctrlp_custom_ignore = 'node_modules\|git'
 
+" Auto indent after {, [, (
+inoremap {<cr> {<cr>}<c-o><s-o>
+inoremap [<cr> [<cr>]<c-o><s-o>
+inoremap (<cr> (<cr>)<c-o><s-o>
+
 " Prettier
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
