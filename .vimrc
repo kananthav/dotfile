@@ -1,5 +1,7 @@
 syntax enable
 set encoding=UTF-8
+" This must be first, because it changes other options as side effect
+set nocompatible
 
 " for tmux
 set t_Co=256
@@ -8,6 +10,7 @@ syntax on
 color dracula
 
 let mapleader = ","
+
 let NERDTreeHijackNetrw = 0
 let NERDTreeShowHidden=1
 let g:airline#extensions#tabline#enabled = 1
@@ -36,42 +39,52 @@ let g:user_emmet_settings = {
 let g:ctrlp_max_files=0
 let g:ctrlp_custom_ignore = 'node_modules\|git'
 
-" Auto indent after {, [, (
+nnoremap <ENTER> :
+vnoremap <ENTER> :
+
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
 inoremap {<cr> {<cr>}<c-o><s-o>
 inoremap [<cr> [<cr>]<c-o><s-o>
 inoremap (<cr> (<cr>)<c-o><s-o>
 
 " Prettier
-let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+" let g:prettier#autoformat = 0
+" autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
 
-" print spaces between brackets
-" Prettier default: true
-let g:prettier#config#bracket_spacing = 'true'
+" " print spaces between brackets
+" " Prettier default: true
+" let g:prettier#config#bracket_spacing = 'true'
 
-" none|es5|all
-" Prettier default: none
-let g:prettier#config#trailing_comma = 'none'
+" " none|es5|all
+" " Prettier default: none
+" let g:prettier#config#trailing_comma = 'none'
 
-" max line length that prettier will wrap on
-" Prettier default: 80
-let g:prettier#config#print_width = 100
+" " max line length that prettier will wrap on
+" " Prettier default: 80
+" let g:prettier#config#print_width = 100
 
-" print semicolons
-" Prettier default: true
-let g:prettier#config#semi = 'false'
+" " print semicolons
+" " Prettier default: true
+" let g:prettier#config#semi = 'false'
 
-" single quotes over double quotes
-" Prettier default: false
-let g:prettier#config#single_quote = 'true'
+" " single quotes over double quotes
+" " Prettier default: false
+" let g:prettier#config#single_quote = 'true'
 
-" put > on the last line instead of new line
-" Prettier default: false
-let g:prettier#config#jsx_bracket_same_line = 'false'
+" " put > on the last line instead of new line
+" " Prettier default: false
+" let g:prettier#config#jsx_bracket_same_line = 'false'
+
+" " Make the keyboard faaaaaaast
+" set ttyfast
+" set timeout timeoutlen=1000 ttimeoutlen=50
 
 set guifont=DroidSansMono\ Nerd\ Font\ 11
-:set pastetoggle=<F3>
-:set autoread
+set pastetoggle=<F3>
+set autoread
+set lazyredraw
 set background=dark
 set number
 set autoindent
@@ -79,6 +92,7 @@ set smartindent
 set relativenumber
 set smarttab
 set noswapfile
+set nobackup
 set expandtab
 set shiftwidth=2
 set tabstop=2
@@ -90,6 +104,14 @@ set ignorecase
 set smartcase
 set endofline
 set nowrap
+set wildmenu
+set ruler
+set visualbell
+set hidden
+set title
+" 5 lines above/below cursor when scrolling
+set scrolloff=7
+set mouse=a
 
 " Ale
 " Fix files with prettier, and then ESLint.
@@ -136,14 +158,24 @@ nmap <C-l> <C-w><C-l>
 " Ycm
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 
+" ctags
+" nnoremap <leader>. :CtrlPTag<cr>
+" autocmd BufWritePost *.c,*.cpp,*.h silent! !ctags -R &
+" au BufWritePost *.c,*.cpp,*.h !ctags -R
+
 " Move position like use `Alt + Up/Down` in vscode
 " Insert mode
 inoremap <C-j> <ESC>:m .+1<CR>==gi
 inoremap <C-k> <ESC>:m .-2<CR>==gi
-:imap jj <Esc>
 " Visual mode
 vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
+
+" Move a line of text using ALT+[jk] or Command+[jk] on mac
+" nmap <M-j> mz:m+<cr>`z
+" nmap <M-k> mz:m-2<cr>`z
+" vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+" vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 " Copy to clipboard
 vnoremap <C-C> :w !xclip -i -sel c<CR><CR>
@@ -162,14 +194,14 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'maxmellon/vim-jsx-pretty'
 Plugin 'tpope/vim-surround'
-Plugin 'terryma/vim-multiple-cursors'
+" Plugin 'terryma/vim-multiple-cursors'
 Plugin 'raimondi/delimitmate'
 Plugin 'dracula/vim'
 Plugin 'yggdroot/indentline'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'mattn/emmet-vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'prettier/vim-prettier'
+" Plugin 'prettier/vim-prettier'
 Plugin 'dense-analysis/ale'
 Plugin 'tpope/vim-fugitive'
 " Plugin 'ervandew/supertab'
