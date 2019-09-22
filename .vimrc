@@ -1,4 +1,4 @@
-syntax enable
+yntax enable
 set encoding=UTF-8
 " This must be first, because it changes other options as side effect
 set nocompatible
@@ -22,6 +22,7 @@ let g:airline_theme = 'onedark'
 " NERDTree ignore some files
 let NERDTreeIgnore = ['DS_Store', 'node_modules', 'vendor']
 
+au BufNewFile,BufRead *.ejs set filetype=html
 let g:mta_filetypes = {
     \ 'javascript.jsx' : 1,
     \ 'html' : 1,
@@ -103,13 +104,13 @@ set laststatus=2
 set ignorecase
 set smartcase
 set endofline
-set nowrap
+" set nowrap
 set wildmenu
 set ruler
 set visualbell
 set hidden
 set title
-" 5 lines above/below cursor when scrolling
+" 7 lines above/below cursor when scrolling
 set scrolloff=7
 set mouse=a
 
@@ -158,11 +159,6 @@ nmap <C-l> <C-w><C-l>
 " Ycm
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 
-" ctags
-" nnoremap <leader>. :CtrlPTag<cr>
-" autocmd BufWritePost *.c,*.cpp,*.h silent! !ctags -R &
-" au BufWritePost *.c,*.cpp,*.h !ctags -R
-
 " Move position like use `Alt + Up/Down` in vscode
 " Insert mode
 inoremap <C-j> <ESC>:m .+1<CR>==gi
@@ -203,7 +199,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'airblade/vim-gitgutter'
 " Plugin 'prettier/vim-prettier'
 Plugin 'dense-analysis/ale'
-Plugin 'tpope/vim-fugitive'
+" Plugin 'tpope/vim-fugitive'
 " Plugin 'ervandew/supertab'
 " Plugin 'luochen1990/rainbow'
 " Plugin 'soramugi/auto-ctags.vim'
