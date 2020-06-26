@@ -1,5 +1,3 @@
-" vim-bootstrap 
-
 "*****************************************************************************
 "" Vim-PLug core
 "*****************************************************************************
@@ -27,7 +25,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
-" Plug 'ryanoasis/vim-devicons'
+Plug 'wakatime/vim-wakatime'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'
@@ -45,6 +43,11 @@ Plug 'avelino/vim-bootstrap-updater'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" ag
+" Plug 'rking/ag.vim'
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'xuyuanp/nerdtree-git-plugin'
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -63,12 +66,26 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 
 "" Snippets
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 "" Color
 Plug 'mhartington/oceanic-next'
+Plug 'morhetz/gruvbox'
 Plug 'tomasr/molokai'
+
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+" Surrounded
+" Default mapping
+let g:multi_cursor_start_word_key      = '<A-m>'
+let g:multi_cursor_select_all_word_key = '<A-n>'
+let g:multi_cursor_start_key           = 'g<C-n>'
+let g:multi_cursor_select_all_key      = 'g<A-n>'
+let g:multi_cursor_next_key            = '<A-m>'
+let g:multi_cursor_prev_key            = '<A-p>'
+let g:multi_cursor_skip_key            = '<A-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
 
 "*****************************************************************************
 "" Custom bundles
@@ -100,11 +117,6 @@ let g:user_emmet_settings = {
 Plug 'jelera/vim-javascript-syntax'
 
 
-" php
-"" PHP Bundle
-Plug 'arnaud-lb/vim-php-namespace'
-
-
 " ruby
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
@@ -131,6 +143,7 @@ Plug 'posva/vim-vue'
 Plug 'leafOfTree/vim-vue-plugin'
 
 
+Plug 'ryanoasis/vim-devicons'
 
 "*****************************************************************************
 "*****************************************************************************
@@ -151,12 +164,21 @@ filetype plugin indent on
 "*****************************************************************************
 "" Basic Setup
 "*****************************************************************************"
+
+" set guifont=FiraCode_Nerd_Font:h12
+" set guifont=Fira\ Code\ Retina\ 12
+" set guifont=FiraCode\ Nerd\ Retina\ 12
+" set conceallevel=3
+" set sessionoptions=folds,localoptions
+
 "" Encoding
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8
+set encoding=UTF-8
+set fileencoding=UTF-8
+set fileencodings=UTF-8
 set mouse=a
 
+" Display extra whitespace
+set list listchars=tab:»·,trail:·,nbsp:·
 
 "" Fix backspace indent
 set backspace=indent,eol,start
@@ -196,16 +218,36 @@ let g:session_command_aliases = 1
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
+
+" if exists('g:loaded_webdevicons')
+"     call webdevicons#refresh()
+" endif
+
 syntax on
 syntax enable
+" if !exists("g:syntax_on")
+"     syntax enable
+" endif
+" syntax enable
 set ruler
 set number
 set rnu " relative number
 set nowrap
 
+let g:gruvbox_bold = 1
+let g:gruvbox_italic = 1
+let g:gruvbox_underline = 1
+let g:gruvbox_invert_signs = 1
+let g:gruvbox_invert_tabline = 1
+let g:gruvbox_invert_indent_guides = 1
+let g:gruvbox_italicize_comments = 1
+let g:gruvbox_contrast_dark = 'medium'
+
 let no_buffers_menu=1
 " silent! colorscheme molokai
-silent! colorscheme OceanicNext
+" silent! colorscheme OceanicNext
+silent! colorscheme gruvbox
+set background=dark
 
 " Operator Mono
 hi htmlArg gui=italic
@@ -217,6 +259,9 @@ hi Type    cterm=italic
 
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
+
+let g:WebDevIconsNerdTreeGitPluginForceVAlign='on'
+let g:WebDevIconsNerdTreeGitPluginForceVAlign=1
 
 set mousemodel=popup
 set t_Co=256
@@ -274,9 +319,12 @@ if exists("*fugitive#statusline")
 endif
 
 " vim-airline
-let g:airline_theme = 'powerlineish'
+let g:airline_theme = 'base16_gruvbox_dark_hard'
 let g:airline#extensions#branch#enabled = 1
-" let g:airline#extensions#ale#enabled = 1
+" let g:airline#extensions#aleenabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline_left_sep = ' '
+let g:airline_right_sep = ' '
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
@@ -311,11 +359,10 @@ nnoremap <silent> <F3> :NERDTreeToggle<CR>
 nnoremap <silent> <leader>rg :Rgrep<CR>
 let Grep_Default_Options = '-IR'
 let Grep_Skip_Files = '*.log *.db'
-let Grep_Skip_Dirs = '.git node_modules'
+let Grep_Skip_Dirs = '.git node_modules tmp'
 
 " terminal emulation
 nnoremap <silent> <leader>sh :terminal<CR>
-
 
 "*****************************************************************************
 "" Commands
@@ -388,6 +435,18 @@ nnoremap <leader>ss :SaveSession<Space>
 nnoremap <leader>sd :DeleteSession<CR>
 nnoremap <leader>sc :CloseSession<CR>
 
+" resize current buffer by +/- 5 
+nnoremap <Left> :vertical resize -5<cr>
+nnoremap <Down> :resize +5<cr>
+nnoremap <Up> :resize -5<cr>
+nnoremap <Right> :vertical resize +5<cr>
+
+" Get off my lawn
+" nnoremap <Left> :echoe "Use h"<CR>
+" nnoremap <Right> :echoe "Use l"<CR>
+" nnoremap <Up> :echoe "Use k"<CR>
+" nnoremap <Down> :echoe "Use j"<CR>
+
 "" Tabs
 nnoremap <Tab> gt
 nnoremap <S-Tab> gT
@@ -395,6 +454,9 @@ nnoremap <silent> <S-t> :tabnew<CR>
 
 "" Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
+
+"" Coc Prettier
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 "" Opens an edit command with the path of the currently edited file filled in
 noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
@@ -405,7 +467,16 @@ noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 "" fzf.vim
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+" let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'tmp/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+let $FZF_DEFAULT_COMMAND =  "fd type f --color=always"
+" Always enable preview window on the right with 60% width
+let g:fzf_preview_window = 'right:60%'
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
+" [Commands] --expect expression for directly executing the command
+let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 
 " The Silver Searcher
 if executable('ag')
@@ -419,18 +490,22 @@ if executable('rg')
   set grepprg=rg\ --vimgrep
   command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
+" let g:ag_prg="ag --vimgrep"
+" let g:ag_working_path_mode="r"
 
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>e :FZF -m<CR>
+nnoremap <silent> <leader>b :Buffers!<CR>
+" nnoremap <silent> <leader>e :FZF -m<CR>
+nnoremap <silent> <leader>e :Files<CR>
+nnoremap <silent> <leader>ag :Ag!<CR>
 "Recovery commands from history through FZF
 nmap <leader>y :History:<CR>
 
 " snippets
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-" let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsExpandTrigger="<C-s>"
+let g:UltiSnipsJumpForwardTrigger="<C-s>"
+let g:UltiSnipsJumpBackwardTrigger="<C-b>"
+let g:UltiSnipsEditSplit="vertical"
 
 " ale
 " let g:ale_linters = {}
@@ -449,6 +524,9 @@ endif
 if has('unnamedplus')
   set clipboard=unnamed,unnamedplus
 endif
+
+"" Coc Yank
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
 noremap YY "+y<CR>
 noremap <leader>p "+gP<CR>
@@ -478,9 +556,14 @@ noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
 
+noremap <F9> <C-y>
+noremap <F10> <C-e>
+
 "" Vmap for maintain Visual Mode after shifting > and <
 vmap < <gv
 vmap > >gv
+
+vmap D y'>p
 
 nnoremap <ENTER> :
 vnoremap <ENTER> :
@@ -616,6 +699,19 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+function! ShowDocIfNoDiagnostic(timer_id)
+  if (coc#util#has_float() == 0)
+    silent call CocActionAsync('doHover')
+  endif
+endfunction
+
+function! s:show_hover_doc()
+  call timer_start(500, 'ShowDocIfNoDiagnostic')
+endfunction
+
+autocmd CursorHoldI * :call <SID>show_hover_doc()
+autocmd CursorHold * :call <SID>show_hover_doc()
+
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -646,8 +742,8 @@ augroup mygroup
 augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+xmap <leader>aa  <Plug>(coc-codeaction-selected)
+nmap <leader>aa  <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
 nmap <leader>ac  <Plug>(coc-codeaction)
@@ -801,37 +897,41 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
-if !exists('g:airline_powerline_fonts')
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = '▶'
-  let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = '◀'
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
-else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline_powerline_fonts = 1
 
-  " powerline symbols
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-endif
+" if !exists('g:airline_powerline_fonts')
+"   let g:airline_powerline_fonts = 1
+"   let g:airline#extensions#tabline#left_sep = ' '
+"   let g:airline#extensions#tabline#left_alt_sep = '|'
+"   " let g:airline_left_sep          = '▶'
+"   let g:airline_left_alt_sep      = '»'
+"   " let g:airline_right_sep         = '◀'
+"   let g:airline_right_alt_sep     = '«'
+"   let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+"   let g:airline#extensions#readonly#symbol   = '⊘'
+"   let g:airline#extensions#linecolumn#prefix = '¶'
+"   let g:airline#extensions#paste#symbol      = 'ρ'
+"   let g:airline_symbols.linenr    = '␊'
+"   let g:airline_symbols.branch    = '⎇'
+"   let g:airline_symbols.paste     = 'ρ'
+"   let g:airline_symbols.paste     = 'Þ'
+"   let g:airline_symbols.paste     = '∥'
+"   let g:airline_symbols.whitespace = 'Ξ'
+" else
+"   let g:airline#extensions#tabline#left_sep = ''
+"   let g:airline#extensions#tabline#left_alt_sep = ''
+
+"   " powerline symbols
+"   let g:airline_left_sep = ''
+"   let g:airline_left_alt_sep = ''
+"   let g:airline_right_sep = ''
+"   let g:airline_right_alt_sep = ''
+"   let g:airline_symbols.branch = ''
+"   let g:airline_symbols.readonly = ''
+"   let g:airline_symbols.linenr = ''
+" endif
 
 inoremap {<cr> {<cr>}<c-o><s-o>
 inoremap [<cr> [<cr>]<c-o><s-o>
 inoremap (<cr> (<cr>)<c-o><s-o>
+
