@@ -25,7 +25,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
-Plug 'wakatime/vim-wakatime'
+" Plug 'wakatime/vim-wakatime'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'
@@ -241,7 +241,7 @@ let g:gruvbox_invert_signs = 1
 let g:gruvbox_invert_tabline = 1
 let g:gruvbox_invert_indent_guides = 1
 let g:gruvbox_italicize_comments = 1
-let g:gruvbox_contrast_dark = 'medium'
+let g:gruvbox_contrast_dark = 'hard'
 
 let no_buffers_menu=1
 " silent! colorscheme molokai
@@ -567,8 +567,8 @@ vmap D y'>p
 
 nnoremap <ENTER> :
 vnoremap <ENTER> :
-nnoremap ; :
-vnoremap ; :
+" nnoremap ; :
+" vnoremap ; :
 
 "" Move visual block
 vnoremap J :m '>+1<CR>gv=gv
